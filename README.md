@@ -32,14 +32,12 @@ A full-stack web app that generates a walking loop of a user-defined distance, s
 ```plaintext
 walk-route-webapp/
 ├── backend/
-│   ├── __pycache__/
 │   ├── .env
 │   ├── .gitignore
 │   ├── main.py
 │   └── requirements.txt
 │
 ├── frontend/
-│   ├── node_modules/
 │   ├── public/
 │   │   └── index.html
 │   ├── src/
@@ -49,6 +47,7 @@ walk-route-webapp/
 │   │   └── index.tsx
 │   ├── package-lock.json
 │   ├── package.json
+│   ├── .gitignore
 │   └── tsconfig.json
 │
 └── README.md
