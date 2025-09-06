@@ -21,7 +21,7 @@ const customIcon = new L.Icon({
 
 const App: React.FC = () => {
   const [address, setAddress] = useState<string>('');
-  const [distance, setDistance] = useState<number>(2);
+  const [distance, setDistance] = useState<number>(0);
   const [routeCoords, setRouteCoords] = useState<LatLng[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -39,38 +39,57 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Walk Route</h1>
-      <form onSubmit={handleSubmit} className="mb-4">
-        <input
-          type="text"
-          placeholder="Enter address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-          className="border p-2 mr-2"
-        />
-        <input
-          type="number"
-          min="0.5"
-          step="0.1"
-          value={distance}
-          onChange={(e) => setDistance(Number(e.target.value))}
-          className="border p-2 mr-2 w-24"
-        /> km
-        <button type="submit" className="bg-blue-600 text-white p-2 ml-2">Go</button>
-      </form>
+    <div className="p-4 flex items-center flex-col">
+      <div className='flex justify-center items-center'>
+        <h1 className="text-[clamp(1.25rem,2.5vw+0.5rem,2.5rem)] font-bold mb-4">Walk Route</h1>
+      </div>
+
+      <div className='flex justify-center items-center'>
+        <form onSubmit={handleSubmit} className="mb-4">
+          <div className='flex justify-center items-center gap-[1vw]'>
+            <div className='flex justify-center items-center gap-[0.7vw]'>
+              <p className="text-[clamp(1.25rem,2.5vw+1.5rem,0.1rem)]"> Address: </p>
+              <input
+                type="text"
+                placeholder="Enter address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                required
+                className="border p-2 mr-2 h-[5vh] w-[20vw]"
+              />
+              </div>
+            <div className='flex justify-center items-center gap-[0.7vw]'>
+              <p className="text-[clamp(1.25rem,2.5vw+1.5rem,0.1rem)]"> Distance in KM: </p>
+              <input
+                type="text"
+                min="0"
+                step="0.1"
+                value={distance}
+                onChange={(e) => {
+                  const dist = Number(e.target.value);
+                  setDistance(Number(isNaN(dist) ? "0" : e.target.value.replace(/^0+(?=\d)/, "")));
+                  }
+                }
+                className="border p-2 mr-2 w-24 h-[5vh] w-[10vw]"
+              />
+            </div>
+            <button type="submit" className="bg-blue-600 text-white p-2 ml-2 rounded-[50%] h-[5vh] w-[2.5vw]">Go</button>
+          </div>
+        </form>
+      </div>
 
       {loading && <p>Loading route...</p>}
 
       {routeCoords.length > 0 && (
-        <MapContainer center={routeCoords[0]} zoom={15} style={{ height: '500px' }}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <Polyline positions={routeCoords.map(p => [p.lat, p.lng])} color="blue" />
-          <Marker position={[routeCoords[0].lat, routeCoords[0].lng]} icon={customIcon}>
-            <Popup>Start/End</Popup>
-          </Marker>
-        </MapContainer>
+        <div className='flex justify-center items-center w-[100vw]'>
+          <MapContainer center={routeCoords[0]} zoom={15} style={{ height: '80vh', width: '100vw' }}>
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <Polyline positions={routeCoords.map(p => [p.lat, p.lng])} color="blue" />
+            <Marker position={[routeCoords[0].lat, routeCoords[0].lng]} icon={customIcon}>
+              <Popup>Start/End</Popup>
+            </Marker>
+          </MapContainer>
+        </div>
       )}
     </div>
   );
