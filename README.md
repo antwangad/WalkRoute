@@ -18,7 +18,7 @@ A full-stack web app that generates a walking loop of a user-defined distance, s
 
 | Layer      | Tech                     |
 |------------|--------------------------|
-| Frontend   | React + TypeScript       |
+| Frontend   | React + TypeScript + Tailwind     |
 | Mapping    | Leaflet.js + OpenStreetMap |
 | Backend    | FastAPI (Python)         |
 | Geocoding  | Nominatim API            |
